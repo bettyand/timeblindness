@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Blindness App</title>
+</head>
+
+<body>
+    <header th:replace="fragments :: header"></header>
+
+    <h1>Tasks</h1>
+
+    <p th:if="${param.editsuccess}">Your changes have been saved</p>
+    <p th:if="${param.deletesuccess}">Task has been deleted</p>
+
+    <a th:href="@{/tasks/new}">Add New Task</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>User Name</th>
+                <th>Task Name</th>
+                <th>Description</th>
+                <th>Attempts</th>
+                <th>Shortest Time</th>
+                <th>Longest Time</th>
+                <th>Average Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="task : ${listTasks}">
+                <td th:text="${task.user.firstName}"></td>
+                <td th:text="${task.name}">Task Name</td>
+                <td th:text="${task.description}">Description</td>
+                <td th:text="${task.numAttempts}">Number of Attempts</td>
+                <td th:text="${task.shortestTime}">Shortest Time</td>
+                <td th:text="${task.longestTime}">Longest Time</td>
+                <td th:text="${task.averageTime}">Average Time</td>
+                <td>
+                    <a th:href="@{'/tasks/edit/' + ${task.id}}">Edit</a>
+                    <a th:href="@{'/tasks/delete/' + ${task.id}}">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <footer th:replace="fragments :: footer"></footer>
+</body>
+
+</html>

@@ -17,6 +17,9 @@
                 <a th:href="@{/users}">User List</a>
             </li>
             <li sec:authorize="isAuthenticated()">
+                <a th:href="@{/tasks}">Task List</a>
+            </li>
+            <li sec:authorize="isAuthenticated()">
                 <a th:href="@{/logout}">Log Out</a>
             </li>
             <li sec:authorize="!isAuthenticated()">
