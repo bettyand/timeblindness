@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Blindness App</title>
+</head>
+<body>
+    <header th:replace="fragments :: header"></header>
+
+    <p th:if="${param.loginsuccess}">Logged In Successfully</p>
+    <p th:if="${param.logoutsuccess}">Logged Out Successfully</p>
+    <p th:if="${param.registrationsuccess}">Registration Successful</p>
+    <p th:if="${param.accessdenied}">You are not authorized to view that page.</p>
+
+    <footer th:replace="fragments :: footer"></footer>
+</body>
+</html>

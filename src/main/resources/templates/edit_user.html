@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Blindness App</title>
+</head>
+<body>
+    <header th:replace="fragments :: header"></header>
+
+    <h1>Register</h1>
+    <form th:action="@{/users/save}" th:object="${user}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{password}">
+
+        <label for="email">Email: </label>
+        <input type="email" name="email" th:field="*{email}" required>
+
+        <label for="firstname">First Name: </label>
+        <input type="text" name="firstname" th:field="*{firstName}" required maxlength="20">
+
+        <label for="lastname">Last Name: </label>
+        <input type="text" name="lastname" th:field="*{lastName}" required maxlength="20">
+
+        <label for="roles">Roles: </label>
+        <th:block th:each="role : ${listRoles}">
+            <input type="checkbox" th:field="*{roles}" th:text="${role.name}" th:value="${role.id}">
+        </th:block>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <footer th:replace="fragments :: footer"></footer>
+</body>
+</html>
