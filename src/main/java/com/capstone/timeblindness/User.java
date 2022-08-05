@@ -32,6 +32,9 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Task> tasks = new HashSet<>();
+
     public Long getId() {
         return id;
     }
