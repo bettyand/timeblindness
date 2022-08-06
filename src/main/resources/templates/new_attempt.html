@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Blindness App</title>
+</head>
+
+<body>
+    <header th:replace="fragments :: header"></header>
+
+    <main th:object="${task}">
+        <h1>New Attempt For: <span th:text="${task.name}">Task Name</span></h1>
+
+        <p th:text="${task.description}">Task Description</p>
+
+        <p></p>
+
+        <form th:action="@{'/tasks/' + ${task.id} + '/attempt/save'}" th:object="${attempt}" method="post">
+            <button type="submit" name="action" th:value="start" th:text="Start"></button>
+            <label for="startTime"></label>
+            <input type="number" name="startTime" id="startTime" th:value="${attempt.startTime}" disabled>
+            
+            <button type="submit" name="action" th:value="stop" th:text="Stop"></button>
+            <label for="stopTime"></label>
+            <input type="number" name="stopTime" id="stopTime" th:value="${attempt.stopTime}" disabled>
+
+            <button type="submit" name="action" th:value="save" th:text="Save"></button>
+        </form>
+    </main>
+
+
+
+
+    <footer th:replace="fragments :: footer"></footer>
+</body>
+
+</html>

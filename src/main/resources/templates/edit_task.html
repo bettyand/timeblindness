@@ -14,10 +14,10 @@
         <input type="hidden" th:field="*{id}">
 
         <label for="name">Name: </label>
-        <input type="text" name="name" th:field="*{name}" required>
+        <input type="text" id="name" name="name" th:field="*{name}" required>
 
         <label for="description">Description: </label>
-        <input type="text" name="description" th:field="*{description}" maxlength="255">
+        <textarea id="description" name="description" th:field="*{description}" maxlength="255" rows="5" cols="50">
 
         <button type="submit">Save</button>
     </form>

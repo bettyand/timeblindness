@@ -15,13 +15,13 @@
         <input type="hidden" th:field="*{password}">
 
         <label for="email">Email: </label>
-        <input type="email" name="email" th:field="*{email}" required>
+        <input type="email" id="email" name="email" th:field="*{email}" required>
 
         <label for="firstname">First Name: </label>
-        <input type="text" name="firstname" th:field="*{firstName}" required maxlength="20">
+        <input type="text" id="firstname" name="firstname" th:field="*{firstName}" required maxlength="20">
 
         <label for="lastname">Last Name: </label>
-        <input type="text" name="lastname" th:field="*{lastName}" required maxlength="20">
+        <input type="text" id="lastname" name="lastname" th:field="*{lastName}" required maxlength="20">
 
         <label for="roles">Roles: </label>
         <th:block th:each="role : ${listRoles}">

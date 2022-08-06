@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Blindness App</title>
+</head>
+
+<body>
+    <header th:replace="fragments :: header"></header>
+
+    <main th:object="${task}">
+        <h1 th:text="${task.name}">Task Name</h1>
+
+        <p th:text="${task.description}">Task Description</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Attempts</th>
+                    <th>Shortest Time</th>
+                    <th>Longest Time</th>
+                    <th>Average Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td th:text="${task.numAttempts}">Number of Attempts</td>
+                    <td th:text="${task.shortestTime}">Shortest Time</td>
+                    <td th:text="${task.longestTime}">Longest Time</td>
+                    <td th:text="${task.averageTime}">Average Time</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Attempts</h2>
+
+        <a th:href="@{'/tasks/' + ${task.id} + '/attempt'}">New Attempt</a>
+
+        <p th:if="${param.attemptsuccess}">Attempt Saved Successfully</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Start Time</th>
+                    <th>Stop Time</th>
+                    <th>Duration</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="attempt : ${listAttempts}">
+                    <td th:text="${attempt.startTime}">Start Time</td>
+                    <td th:text="${attempt.stopTime}">Stop Time</td>
+                    <td th:text="${attempt.duration}">Duration</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{'/tasks/edit/' + ${task.id}}">Edit Task</a>
+        <a th:href="@{'/tasks/delete/' + ${task.id}}">Delete Task</a>
+    </main>
+
+    <footer th:replace="fragments :: footer"></footer>
+</body>
+
+</html>
