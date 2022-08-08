@@ -11,7 +11,8 @@
 <body>
     <header th:replace="fragments :: header"></header>
 
-    <h1>Tasks</h1>
+    <h1 th:if="${all}">All Tasks</h1>
+    <h1 th:unless="${all}">My Tasks</h1>
 
     <p th:if="${param.editsuccess}">Your changes have been saved</p>
     <p th:if="${param.deletesuccess}">Task has been deleted</p>
