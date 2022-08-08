@@ -30,9 +30,9 @@
             <tbody>
                 <tr>
                     <td th:text="${task.numAttempts}">Number of Attempts</td>
-                    <td th:text="${task.shortestTime}">Shortest Time</td>
-                    <td th:text="${task.longestTime}">Longest Time</td>
-                    <td th:text="${task.averageTime}">Average Time</td>
+                    <td th:text="${task.shortestTimeString()}">Shortest Time</td>
+                    <td th:text="${task.longestTimeString()}">Longest Time</td>
+                    <td th:text="${task.averageTimeString()}">Average Time</td>
                 </tr>
             </tbody>
         </table>
@@ -51,9 +51,9 @@
             </thead>
             <tbody>
                 <tr th:each="attempt : ${listAttempts}">
-                    <td th:text="${attempt.startTime}">Start Time</td>
-                    <td th:text="${attempt.stopTime}">Stop Time</td>
-                    <td th:text="${attempt.duration}">Duration</td>
+                    <td th:text="${attempt.startTimeString()}">Start Time</td>
+                    <td th:text="${attempt.stopTimeString()}">Stop Time</td>
+                    <td th:text="${attempt.durationString()}">Duration</td>
                 </tr>
             </tbody>
         </table>

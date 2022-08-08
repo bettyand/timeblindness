@@ -20,11 +20,11 @@
             <form th:action="@{'/tasks/' + ${task.id} + '/attempt/' + ${attempt.id}}" method="post">
                 <button type="submit" name="action" th:value="start" th:text="Start"></button>
                 <p>Start Time:</p>
-                <p th:text="${attempt.startTime}">00:00:00</p>
+                <p th:text="${attempt.startTimeString()}">00:00:00</p>
 
                 <button type="submit" name="action" th:value="stop" th:text="Stop"></button>
                 <p>Stop Time:</p>
-                <p th:text="${attempt.stopTime}">00:00:00</p>
+                <p th:text="${attempt.stopTimeString()}">00:00:00</p>
 
                 <button type="submit" name="action" th:value="save" th:text="Save"></button>
             </form>

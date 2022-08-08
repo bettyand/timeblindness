@@ -1,5 +1,6 @@
 package com.capstone.timeblindness;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -129,5 +130,80 @@ public class Task {
 
     public void setAttempts(Set<Attempt> attempts) {
         this.attempts = attempts;
+    }
+
+    public String shortestTimeString() {
+        int totalSeconds = (int)(this.shortestTime / 1000);
+        int hours = totalSeconds / 3600;
+        int remainingMinutes = totalSeconds % 3600;
+        int minutes = remainingMinutes / 60;
+        int seconds = remainingMinutes % 60;
+        String string;
+        if (hours < 10) {
+            string = "0" + hours + ":";
+        } else {
+            string = hours + ":";
+        }
+        if (minutes < 10) {
+            string = string + "0" + minutes + ":";
+        } else {
+            string = string + minutes + ":";
+        }
+        if (seconds < 10) {
+            string = string + "0" + seconds;
+        } else {
+            string = string + seconds;
+        }
+        return string;
+    }
+
+    public String longestTimeString() {
+        int totalSeconds = (int)(this.longestTime / 1000);
+        int hours = totalSeconds / 3600;
+        int remainingMinutes = totalSeconds % 3600;
+        int minutes = remainingMinutes / 60;
+        int seconds = remainingMinutes % 60;
+        String string;
+        if (hours < 10) {
+            string = "0" + hours + ":";
+        } else {
+            string = hours + ":";
+        }
+        if (minutes < 10) {
+            string = string + "0" + minutes + ":";
+        } else {
+            string = string + minutes + ":";
+        }
+        if (seconds < 10) {
+            string = string + "0" + seconds;
+        } else {
+            string = string + seconds;
+        }
+        return string;
+    }
+
+    public String averageTimeString() {
+        int totalSeconds = (int)(this.averageTime / 1000);
+        int hours = totalSeconds / 3600;
+        int remainingMinutes = totalSeconds % 3600;
+        int minutes = remainingMinutes / 60;
+        int seconds = remainingMinutes % 60;
+        String string;
+        if (hours < 10) {
+            string = "0" + hours + ":";
+        } else {
+            string = hours + ":";
+        }
+        if (minutes < 10) {
+            string = string + "0" + minutes + ":";
+        } else {
+            string = string + minutes + ":";
+        }
+        if (seconds < 10) {
+            string = string + "0" + seconds;
+        } else {
+            string = string + seconds;
+        }
+        return string;
     }
 }

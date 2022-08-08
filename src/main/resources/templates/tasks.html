@@ -21,7 +21,7 @@
     <table>
         <thead>
             <tr>
-                <th>User Name</th>
+                <th th:if="${all}">User Name</th>
                 <th>Task Name</th>
                 <th>Description</th>
                 <th>Attempts</th>
@@ -33,15 +33,15 @@
         </thead>
         <tbody>
             <tr th:each="task : ${listTasks}">
-                <td th:text="${task.user.firstName}">User Name</td>
+                <td th:if="${all}" th:text="${task.user.firstName}">User Name</td>
                 <td>
                     <a th:href="@{'/tasks/' + ${task.id}}" th:text="${task.name}">Task Name</a>
                 </td>
                 <td th:text="${task.description}">Description</td>
                 <td th:text="${task.numAttempts}">Number of Attempts</td>
-                <td th:text="${task.shortestTime}">Shortest Time</td>
-                <td th:text="${task.longestTime}">Longest Time</td>
-                <td th:text="${task.averageTime}">Average Time</td>
+                <td th:text="${task.shortestTimeString()}">Shortest Time</td>
+                <td th:text="${task.longestTimeString()}">Longest Time</td>
+                <td th:text="${task.averageTimeString()}">Average Time</td>
                 <td>
                     <a th:href="@{'/tasks/edit/' + ${task.id}}">Edit</a>
                     <a th:href="@{'/tasks/delete/' + ${task.id}}">Delete</a>

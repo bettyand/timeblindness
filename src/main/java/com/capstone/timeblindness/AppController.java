@@ -69,6 +69,17 @@ public class AppController {
 
     @GetMapping("/tasks")
     public String viewTasks(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) principal;
+        User user = userService.getByEmail(userDetails.getUsername());
+        model.addAttribute("listTasks", taskService.getByUserId(user.getId()));
+        model.addAttribute("all", false);
+        return "tasks";
+    }
+
+    @GetMapping("/tasks/all")
+    public String viewAllTasks(Model model) {
+        model.addAttribute("all", true);
         model.addAttribute("listTasks", taskService.getAllTasks());
         return "tasks";
     }
