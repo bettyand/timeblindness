@@ -12,13 +12,22 @@
     <header th:replace="fragments :: header"></header>
 
     <h1>User List</h1>
+
     <table>
         <thead>
             <tr>
-                <th>User ID</th>
-                <th>Email</th>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>
+                    <a th:href="@{'/users/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">User ID</a>
+                </th>
+                <th>
+                    <a th:href="@{'/users/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">Email</a>
+                </th>
+                <th>
+                    <a th:href="@{'/users/page/' + ${currentPage} + '?sortField=firstName&sortDir=' + ${reverseSortDir}}">First Name</a>
+                </th>
+                <th>
+                    <a th:href="@{'/users/page/' + ${currentPage} + '?sortField=lastName&sortDir=' + ${reverseSortDir}}">Last Name</a>
+                </th>
                 <th>Roles</th>
                 <th>Actions</th>
             </tr>
@@ -34,6 +43,32 @@
             </tr>
         </tbody>
     </table>
+
+<ul>
+    <li>
+        <a th:if="${currentPage > 1}" th:href="@{'/users/page/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+        <span th:unless="${currentPage > 1}">First</span>
+    </li>
+    <li>
+        <a th:if="${currentPage > 1}" th:href="@{'/users/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+        <span th:unless="${currentPage > 1}">Previous</span>
+    </li>
+    <li>
+        <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+            <a th:if="${currentPage != i}" th:href="@{'/users/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+            <span th:unless="${currentPage != i}">[[${i}]]</span>
+            &nbsp; &nbsp;
+        </span>
+    </li>
+    <li>
+        <a th:if="${currentPage < totalPages}" th:href="@{'/users/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+        <span th:unless="${currentPage < totalPages}">Next</span>
+    </li>
+    <li>
+        <a th:if="${currentPage < totalPages}" th:href="@{'/users/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+        <span th:unless="${currentPage < totalPages}">Last</span>
+    </li>
+</ul>
 
     <footer th:replace="fragments :: footer"></footer>
 </body>

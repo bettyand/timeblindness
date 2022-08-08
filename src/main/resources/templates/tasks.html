@@ -16,24 +16,44 @@
     <p th:if="${param.editsuccess}">Your changes have been saved</p>
     <p th:if="${param.deletesuccess}">Task has been deleted</p>
 
-    <a th:href="@{/tasks/new}">Add New Task</a>
+    <a th:unless="${all}" th:href="@{/tasks/new}">Add New Task</a>
 
     <table>
         <thead>
             <tr>
-                <th th:if="${all}">User Name</th>
-                <th>Task Name</th>
-                <th>Description</th>
-                <th>Attempts</th>
-                <th>Shortest Time</th>
-                <th>Longest Time</th>
-                <th>Average Time</th>
+                <th th:if="${all}">
+                    User ID
+                </th>
+                <th>
+                    <a th:if="${all}" th:href="@{'/tasks/all/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">Task Name</a>
+                    <a th:unless="${all}" th:href="@{'/tasks/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">Task Name</a>
+                </th>
+                <th>
+                    <a th:if="${all}" th:href="@{'/tasks/all/page/' + ${currentPage} + '?sortField=description&sortDir=' + ${reverseSortDir}}">Description</a>
+                    <a th:unless="${all}" th:href="@{'/tasks/page/' + ${currentPage} + '?sortField=description&sortDir=' + ${reverseSortDir}}">Description</a>
+                </th>
+                <th>
+                    <a th:if="${all}" th:href="@{'/tasks/all/page/' + ${currentPage} + '?sortField=attempts&sortDir=' + ${reverseSortDir}}">Attempts</a>
+                    <a th:unless="${all}" th:href="@{'/tasks/page/' + ${currentPage} + '?sortField=attempts&sortDir=' + ${reverseSortDir}}">Attempts</a>
+                </th>
+                <th>
+                    <a th:if="${all}" th:href="@{'/tasks/all/page/' + ${currentPage} + '?sortField=shortestTime&sortDir=' + ${reverseSortDir}}">Shortest Time</a>
+                    <a th:unless="${all}" th:href="@{'/tasks/page/' + ${currentPage} + '?sortField=shortestTime&sortDir=' + ${reverseSortDir}}">Shortest Time</a>
+                </th>
+                <th>
+                    <a th:if="${all}" th:href="@{'/tasks/all/page/' + ${currentPage} + '?sortField=longestTime&sortDir=' + ${reverseSortDir}}">Longest Time</a>
+                    <a th:unless="${all}" th:href="@{'/tasks/page/' + ${currentPage} + '?sortField=longestTime&sortDir=' + ${reverseSortDir}}">Longest Time</a>
+                </th>
+                <th>
+                    <a th:if="${all}" th:href="@{'/tasks/all/page/' + ${currentPage} + '?sortField=averageTime&sortDir=' + ${reverseSortDir}}">Average Time</a>
+                    <a th:unless="${all}" th:href="@{'/tasks/page/' + ${currentPage} + '?sortField=averageTime&sortDir=' + ${reverseSortDir}}">Average Time</a>
+                </th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="task : ${listTasks}">
-                <td th:if="${all}" th:text="${task.user.firstName}">User Name</td>
+                <td th:if="${all}" th:text="${task.user.id}">User ID</td>
                 <td>
                     <a th:href="@{'/tasks/' + ${task.id}}" th:text="${task.name}">Task Name</a>
                 </td>
@@ -49,6 +69,59 @@
             </tr>
         </tbody>
     </table>
+
+    <ul th:if="${all}">
+        <li>
+            <a th:if="${currentPage > 1}" th:href="@{'/tasks/all/page/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+            <span th:unless="${currentPage > 1}">First</span>
+        </li>
+        <li>
+            <a th:if="${currentPage > 1}" th:href="@{'/tasks/all/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+            <span th:unless="${currentPage > 1}">Previous</span>
+        </li>
+        <li>
+            <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+                <a th:if="${currentPage != i}" th:href="@{'/tasks/all/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                <span th:unless="${currentPage != i}">[[${i}]]</span>
+                &nbsp; &nbsp;
+            </span>
+        </li>
+        <li>
+            <a th:if="${currentPage < totalPages}" th:href="@{'/tasks/all/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+            <span th:unless="${currentPage < totalPages}">Next</span>
+        </li>
+        <li>
+            <a th:if="${currentPage < totalPages}" th:href="@{'/tasks/all/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+            <span th:unless="${currentPage < totalPages}">Last</span>
+        </li>
+    </ul>
+
+    <ul th:unless="${all}">
+        <li>
+            <a th:if="${currentPage > 1}" th:href="@{'/tasks/page/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+            <span th:unless="${currentPage > 1}">First</span>
+        </li>
+        <li>
+            <a th:if="${currentPage > 1}" th:href="@{'/tasks/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+            <span th:unless="${currentPage > 1}">Previous</span>
+        </li>
+        <li>
+            <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+                <a th:if="${currentPage != i}" th:href="@{'/tasks/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                <span th:unless="${currentPage != i}">[[${i}]]</span>
+                &nbsp; &nbsp;
+            </span>
+        </li>
+        <li>
+            <a th:if="${currentPage < totalPages}" th:href="@{'/tasks/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+            <span th:unless="${currentPage < totalPages}">Next</span>
+        </li>
+        <li>
+            <a th:if="${currentPage < totalPages}" th:href="@{'/tasks/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+            <span th:unless="${currentPage < totalPages}">Last</span>
+        </li>
+    </ul>
+
 
     <footer th:replace="fragments :: footer"></footer>
 </body>

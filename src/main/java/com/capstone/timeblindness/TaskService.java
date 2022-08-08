@@ -1,9 +1,12 @@
 package com.capstone.timeblindness;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,5 +41,21 @@ public class TaskService {
         return getAllTasks().stream()
             .filter(task -> task.getUser().getId().equals(id))
             .collect(Collectors.toSet());
+    }
+
+    public Page<Task> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) 
+            ? Sort.by(sortField).ascending() 
+            : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return this.taskRepo.findAll(pageable);
+    }
+
+    public Page<Task> findPaginatedByUserId(int pageNo, int pageSize, String sortField, String sortDirection, Long id) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) 
+            ? Sort.by(sortField).ascending() 
+            : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return this.taskRepo.findByUserId(id, pageable);
     }
 }
