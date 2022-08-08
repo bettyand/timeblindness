@@ -1,6 +1,5 @@
 package com.capstone.timeblindness;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,7 +31,7 @@ public class Task {
     private Long longestTime = 0L;
 
     @Column(name = "average_time")
-    private Long averageTime;
+    private Long averageTime = 0L;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private User user;
