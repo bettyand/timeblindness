@@ -10,18 +10,18 @@
     <header th:replace="fragments :: header"></header>
 
     <h1>Register</h1>
-    <form th:action="@{/process_registration}" th:object="${user}" method="post">
+    <form th:action="@{/process_registration}" th:object="${user}" method="post" autocomplete="on">
         <label for="email">Email: </label>
-        <input type="email" name="email" th:field="*{email}" required>
+        <input type="email" id="email" name="email" th:field="*{email}" required>
 
         <label for="password">Password: </label>
-        <input type="password" name="password" th:field="*{password}" required>
+        <input type="password" id="password" name="password" th:field="*{password}" required>
 
         <label for="firstname">First Name: </label>
-        <input type="text" name="firstname" th:field="*{firstName}" required maxlength="20">
+        <input type="text" id="firstname" name="firstname" th:field="*{firstName}" required maxlength="20">
 
         <label for="lastname">Last Name: </label>
-        <input type="text" name="lastname" th:field="*{lastName}" required maxlength="20">
+        <input type="text" id="lastname" name="lastname" th:field="*{lastName}" required maxlength="20">
 
         <button type="submit">Submit</button>
     </form>
