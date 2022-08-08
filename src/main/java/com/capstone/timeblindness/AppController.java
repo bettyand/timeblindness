@@ -3,6 +3,7 @@ package com.capstone.timeblindness;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,9 +47,30 @@ public class AppController {
     }
 
     @GetMapping("/users")
-    public String listUsers(Model model) {
-        List<User> listUsers = userService.getAllUsers();
+    public String viewUsers(Model model) {
+        return findUserPages(1, "lastName", "asc", model);
+    }
+
+    @GetMapping("/users/page/{pageNo}")
+    public String findUserPages(@PathVariable("pageNo") int pageNo,
+            @RequestParam("sortField") String sortField,
+            @RequestParam("sortDir") String sortDir,
+            Model model) {
+        int pageSize = 5;
+
+        Page<User> page = userService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        List<User> listUsers = page.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         model.addAttribute("listUsers", listUsers);
+
         return "users";
     }
 
@@ -72,17 +94,70 @@ public class AppController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUserDetails userDetails = (CustomUserDetails) principal;
         User user = userService.getByEmail(userDetails.getUsername());
-        model.addAttribute("listTasks", taskService.getByUserId(user.getId()));
-        model.addAttribute("all", false);
-        return "tasks";
+        return findMyTaskPages(1, "name", "asc", user.getId(), model);
     }
 
     @GetMapping("/tasks/all")
-    public String viewAllTasks(Model model) {
+    public String viewMyTasks(Model model) {
+        return findAllTaskPages(1, "name", "asc", model);
+    }
+
+    @GetMapping("/tasks/all/page/{pageNo}")
+    public String findAllTaskPages(@PathVariable("pageNo") int pageNo,
+            @RequestParam("sortField") String sortField,
+            @RequestParam("sortDir") String sortDir,
+            Model model) {
+        int pageSize = 5;
+
+        Page<Task> page = taskService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        List<Task> listTasks = page.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+        model.addAttribute("listTasks", listTasks);
         model.addAttribute("all", true);
-        model.addAttribute("listTasks", taskService.getAllTasks());
+
         return "tasks";
     }
+
+    @GetMapping("/tasks/page/{pageNo}")
+    public String findMyTaskPages(@PathVariable("pageNo") int pageNo,
+            @RequestParam("sortField") String sortField,
+            @RequestParam("sortDir") String sortDir,
+            Long userId,
+            Model model) {
+
+        int pageSize = 5;
+
+        Page<Task> page = taskService.findPaginatedByUserId(pageNo, pageSize, sortField, sortDir, userId);
+        List<Task> listTasks = page.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+        model.addAttribute("listTasks", listTasks);
+        model.addAttribute("all", false);
+
+        return "tasks";
+    }
+
+    // @GetMapping("/tasks/all")
+    // public String viewAllTasks(Model model) {
+    // model.addAttribute("all", true);
+    // model.addAttribute("listTasks", taskService.getAllTasks());
+    // return "tasks";
+    // }
 
     @GetMapping("/tasks/{id}")
     public String viewTask(@PathVariable("id") Long id, Model model) {
@@ -113,7 +188,8 @@ public class AppController {
     }
 
     @PostMapping("/tasks/{tId}/attempt/{aId}")
-    public String saveAttempt(@PathVariable("tId") Long tId, @PathVariable("aId") Long aId, @RequestParam String action, Model model) {
+    public String saveAttempt(@PathVariable("tId") Long tId, @PathVariable("aId") Long aId, @RequestParam String action,
+            Model model) {
         Task task = taskService.getTaskById(tId);
         Attempt attempt = attemptService.getAttemptById(aId);
 
@@ -123,7 +199,7 @@ public class AppController {
             model.addAttribute("task", task);
             model.addAttribute("attempt", attempt);
 
-                return "redirect:/tasks/" + tId + "/attempt/" + aId;
+            return "redirect:/tasks/" + tId + "/attempt/" + aId;
         }
 
         if (action.equals("stop")) {

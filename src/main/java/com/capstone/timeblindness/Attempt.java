@@ -2,7 +2,6 @@ package com.capstone.timeblindness;
 
 import javax.persistence.*;
 import java.lang.System;
-import java.time.Instant;
 import java.util.Date;
 
 @Entity
@@ -76,14 +75,23 @@ public class Attempt {
     }
 
     public String startTimeString() {
+        if (this.startTime == null) {
+            return "n/a";
+        }
         return new Date(this.startTime).toString();
     }
 
     public String stopTimeString() {
+        if (this.stopTime == null) {
+            return "n/a";
+        }
         return new Date(this.startTime).toString();
     }
 
     public String durationString() {
+        if (this.duration == null) {
+            return "n/a";
+        }
         int totalSeconds = (int)(this.duration / 1000);
         int hours = totalSeconds / 3600;
         int remainingMinutes = totalSeconds % 3600;
