@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AppController {
     @Autowired
-    private UserRepository userRepo;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
@@ -45,7 +42,7 @@ public class AppController {
 
     @GetMapping("/users")
     public String listUsers(Model model) {
-        List<User> listUsers = userRepo.findAll();
+        List<User> listUsers = userService.getAllUsers();
         model.addAttribute("listUsers", listUsers);
         return "users";
     }
@@ -163,7 +160,7 @@ public class AppController {
     public String saveTask(@ModelAttribute("task") Task task) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         CustomUserDetails userDetails = (CustomUserDetails) principal;
-        User user = userRepo.findByEmail(userDetails.getUsername());
+        User user = userService.getByEmail(userDetails.getUsername());
         task.setUser(user);
         taskService.saveTask(task);
         return "redirect:/tasks?editsuccess";

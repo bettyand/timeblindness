@@ -38,4 +38,12 @@ public class UserService {
     public void save(User user) {
         userRepo.save(user);
     }
+
+    public List<User> getAllUsers() {
+        return userRepo.findAll();
+    }
+
+    public User getByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
 }
