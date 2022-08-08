@@ -40,6 +40,11 @@ public class AppController {
         return "redirect:/?registrationsuccess";
     }
 
+    @GetMapping("/login")
+    public String getLogin() {
+        return "login";
+    }
+
     @GetMapping("/users")
     public String listUsers(Model model) {
         List<User> listUsers = userService.getAllUsers();
@@ -126,6 +131,10 @@ public class AppController {
                 task.setShortestTime(attempt.getDuration());
             } else if (attempt.getDuration() < task.getShortestTime()) {
                 task.setShortestTime(attempt.getDuration());
+            }
+
+            if (task.getLongestTime() == 0) {
+                task.setLongestTime(attempt.getDuration());
             } else if (attempt.getDuration() > task.getLongestTime()) {
                 task.setLongestTime(attempt.getDuration());
             }

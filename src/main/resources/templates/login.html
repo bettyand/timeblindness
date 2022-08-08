@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Blindness App</title>
+</head>
+<body>
+    <header th:replace="fragments :: header"></header>
+
+    <p th:if="${param.error}">Invalid Email or Password</p>
+
+    <form th:action="@{/login}" method="post">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required>
+
+        <button type="submit">Log In</button>
+    </form>
+
+    <footer th:replace="fragments :: footer"></footer>
+</body>
+</html>
