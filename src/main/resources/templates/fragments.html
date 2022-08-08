@@ -12,12 +12,15 @@
         <ul>
             <li>
                 <a th:href="@{/}">Home</a>
+            </li>            
+            <li sec:authorize="isAuthenticated()">
+                <a th:href="@{/tasks}">My Tasks</a>
+            </li>
+            <li sec:authorize="hasAuthority('Admin')">
+                <a th:href="@{/tasks/all}">All Tasks</a>
             </li>
             <li sec:authorize="hasAuthority('Admin')">
                 <a th:href="@{/users}">User List</a>
-            </li>
-            <li sec:authorize="isAuthenticated()">
-                <a th:href="@{/tasks}">Task List</a>
             </li>
             <li sec:authorize="isAuthenticated()">
                 <a th:href="@{/logout}">Log Out</a>
