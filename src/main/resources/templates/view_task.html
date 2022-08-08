@@ -11,6 +11,8 @@
 <body>
     <header th:replace="fragments :: header"></header>
 
+    <p th:if="${param.savesuccess}">Attempt saved and task stats updated</p>
+
     <main th:object="${task}">
         <h1 th:text="${task.name}">Task Name</h1>
 
@@ -37,9 +39,7 @@
 
         <h2>Attempts</h2>
 
-        <a th:href="@{'/tasks/' + ${task.id} + '/attempt'}">New Attempt</a>
-
-        <p th:if="${param.attemptsuccess}">Attempt Saved Successfully</p>
+        <a th:href="@{'/tasks/' + ${task.id} + '/attempt/new'}">New Attempt</a>
 
         <table>
             <thead>

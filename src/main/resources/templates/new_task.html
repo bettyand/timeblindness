@@ -15,7 +15,7 @@
         <input type="text" id="name" name="name" th:field="*{name}" required>
 
         <label for="description">Description: </label>
-        <textarea id="description" name="description" th:field="*{description}" maxlength="255" rows="5" cols="50">
+        <input type="text" id="description" name="description" th:field="*{description}" maxlength="255">
 
         <button type="submit">Save</button>
     </form>

@@ -19,16 +19,16 @@ public class Task {
     private String description;
 
     @Column(name = "number_of_attempts")
-    private int numAttempts;
+    private int numAttempts = 0;
 
     @Column(name = "total_time")
-    private Long totalTime;
+    private Long totalTime = 0L;
 
     @Column(name = "shortest_time")
-    private Long shortestTime;
+    private Long shortestTime = 0L;
 
     @Column(name = "longest_time")
-    private Long longestTime;
+    private Long longestTime = 0L;
 
     @Column(name = "average_time")
     private Long averageTime;
@@ -72,7 +72,7 @@ public class Task {
     }
 
     public void incrementNumAttempts() {
-        this.numAttempts = numAttempts++;
+        this.numAttempts = numAttempts + 1;
     }
 
     public Long getTotalTime() {

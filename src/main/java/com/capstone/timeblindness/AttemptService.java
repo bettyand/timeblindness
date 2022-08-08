@@ -16,7 +16,6 @@ public class AttemptService {
     }
 
     public void saveAttempt(Attempt attempt) {
-        attempt.calcDuration();
         this.attemptRepo.save(attempt);
     }
 

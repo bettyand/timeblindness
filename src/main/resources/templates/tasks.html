@@ -33,8 +33,10 @@
         </thead>
         <tbody>
             <tr th:each="task : ${listTasks}">
-                <td th:text="${task.user.firstName}"></td>
-                <td th:text="${task.name}">Task Name</td>
+                <td th:text="${task.user.firstName}">User Name</td>
+                <td>
+                    <a th:href="@{'/tasks/' + ${task.id}}" th:text="${task.name}">Task Name</a>
+                </td>
                 <td th:text="${task.description}">Description</td>
                 <td th:text="${task.numAttempts}">Number of Attempts</td>
                 <td th:text="${task.shortestTime}">Shortest Time</td>

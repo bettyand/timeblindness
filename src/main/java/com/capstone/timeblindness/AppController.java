@@ -79,32 +79,67 @@ public class AppController {
         return "view_task";
     }
 
-    @GetMapping("/tasks/{id}/attempt")
+    @GetMapping("/tasks/{id}/attempt/new")
     public String newAttempt(@PathVariable("id") Long id, Model model) {
         Task task = taskService.getTaskById(id);
         Attempt attempt = new Attempt();
         attempt.setTask(task);
+        attemptService.saveAttempt(attempt);
         model.addAttribute("task", task);
         model.addAttribute("attempt", attempt);
-        return "new_attempt";
+        return "attempt";
     }
 
-    @PostMapping("/tasks/{id}/attempt/save")
-    public String saveAttempt(@ModelAttribute("attempt") Attempt attempt, @PathVariable("id") Long id, @RequestParam String action) {
+    @GetMapping("/tasks/{tId}/attempt/{aId}")
+    public String viewAttempt(@PathVariable("tId") Long tId, @PathVariable("aId") Long aId, Model model) {
+        Task task = taskService.getTaskById(tId);
+        Attempt attempt = attemptService.getAttemptById(aId);
+        model.addAttribute("task", task);
+        model.addAttribute("attempt", attempt);
+        return "attempt";
+    }
+
+    @PostMapping("/tasks/{tId}/attempt/{aId}")
+    public String saveAttempt(@PathVariable("tId") Long tId, @PathVariable("aId") Long aId, @RequestParam String action, Model model) {
+        Task task = taskService.getTaskById(tId);
+        Attempt attempt = attemptService.getAttemptById(aId);
+
         if (action.equals("start")) {
-            attempt.start();
-            return "redirect:/tasks/" + id + "/attempt";
+            attempt.setStartTime(System.currentTimeMillis());
+            attemptService.saveAttempt(attempt);
+            model.addAttribute("task", task);
+            model.addAttribute("attempt", attempt);
+
+                return "redirect:/tasks/" + tId + "/attempt/" + aId;
         }
 
         if (action.equals("stop")) {
-            attempt.stop();
-            return "redirect:/tasks/" + id + "/attempt";
+            attempt.setStopTime(System.currentTimeMillis());
+            attemptService.saveAttempt(attempt);
+            model.addAttribute("task", task);
+            model.addAttribute("attempt", attempt);
+            return "redirect:/tasks/" + tId + "/attempt/" + aId;
         }
 
         if (action.equals("save")) {
+            attempt.calcDuration();
             attemptService.saveAttempt(attempt);
-            // add logic for updating task stats
-            return "redirect:/tasks/" + id + "?attemptsuccess";
+
+            if (task.getShortestTime() == 0) {
+                task.setShortestTime(attempt.getDuration());
+            } else if (attempt.getDuration() < task.getShortestTime()) {
+                task.setShortestTime(attempt.getDuration());
+            } else if (attempt.getDuration() > task.getLongestTime()) {
+                task.setLongestTime(attempt.getDuration());
+            }
+
+            task.incrementNumAttempts();
+            task.addToTotalTime(attempt.getDuration());
+            task.updateAverageTime();
+
+            taskService.saveTask(task);
+
+            return "redirect:/tasks/" + tId + "?savesuccess";
         }
 
         return "tasks";
