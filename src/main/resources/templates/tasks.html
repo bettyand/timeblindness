@@ -72,38 +72,38 @@
         </tbody>
     </table>
 
-    <ul th:if="${all}">
-        <li>
+    <ul class="row list-unstyled" th:if="${all}" >
+        <li class="col-sm">
             <a th:if="${currentPage > 1}" th:href="@{'/tasks/all/page/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
             <span th:unless="${currentPage > 1}">First</span>
         </li>
-        <li>
+        <li class="col-sm">
             <a th:if="${currentPage > 1}" th:href="@{'/tasks/all/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
             <span th:unless="${currentPage > 1}">Previous</span>
         </li>
-        <li>
+        <li class="col-sm">
             <span th:each="i : ${#numbers.sequence(1, totalPages)}">
                 <a th:if="${currentPage != i}" th:href="@{'/tasks/all/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
                 <span th:unless="${currentPage != i}">[[${i}]]</span>
                 &nbsp; &nbsp;
             </span>
         </li>
-        <li>
+        <li class="col-sm">
             <a th:if="${currentPage < totalPages}" th:href="@{'/tasks/all/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
             <span th:unless="${currentPage < totalPages}">Next</span>
         </li>
-        <li>
+        <li class="col-sm">
             <a th:if="${currentPage < totalPages}" th:href="@{'/tasks/all/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
             <span th:unless="${currentPage < totalPages}">Last</span>
         </li>
     </ul>
 
-    <ul th:unless="${all}">
-        <li>
+    <ul class="row list-unstyled" th:unless="${all}">
+        <li class="col-sm">
             <a th:if="${currentPage > 1}" th:href="@{'/tasks/page/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
             <span th:unless="${currentPage > 1}">First</span>
         </li>
-        <li>
+        <li class="col-sm">
             <a th:if="${currentPage > 1}" th:href="@{'/tasks/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
             <span th:unless="${currentPage > 1}">Previous</span>
         </li>
@@ -114,11 +114,11 @@
                 &nbsp; &nbsp;
             </span>
         </li>
-        <li>
+        <li class="col-sm">
             <a th:if="${currentPage < totalPages}" th:href="@{'/tasks/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
             <span th:unless="${currentPage < totalPages}">Next</span>
         </li>
-        <li>
+        <li class="col-sm">
             <a th:if="${currentPage < totalPages}" th:href="@{'/tasks/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
             <span th:unless="${currentPage < totalPages}">Last</span>
         </li>
