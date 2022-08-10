@@ -1,33 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
-<head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Blindness App</title>
+<head th:replace="fragments :: head (pageTitle='Time Vision: Users')">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
     <header th:replace="fragments :: header"></header>
 
+    <div class="alert-container">
+        <div th:if="${param.editsuccess}" class="alert alert-success alert-dismissible fade show">
+            Your changes have been saved
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
     <h1>User List</h1>
 
-    <table>
-        <thead>
+    <table class="table table-striped">
+        <thead class="table-primary">
             <tr>
                 <th>
-                    <a th:href="@{'/users/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">User ID</a>
+                    <a th:href="@{'/users/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">User
+                        ID</a>
                 </th>
                 <th>
-                    <a th:href="@{'/users/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">Email</a>
+                    <a
+                        th:href="@{'/users/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">Email</a>
                 </th>
                 <th>
-                    <a th:href="@{'/users/page/' + ${currentPage} + '?sortField=firstName&sortDir=' + ${reverseSortDir}}">First Name</a>
+                    <a
+                        th:href="@{'/users/page/' + ${currentPage} + '?sortField=firstName&sortDir=' + ${reverseSortDir}}">First
+                        Name</a>
                 </th>
                 <th>
-                    <a th:href="@{'/users/page/' + ${currentPage} + '?sortField=lastName&sortDir=' + ${reverseSortDir}}">Last Name</a>
+                    <a
+                        th:href="@{'/users/page/' + ${currentPage} + '?sortField=lastName&sortDir=' + ${reverseSortDir}}">Last
+                        Name</a>
                 </th>
                 <th>Roles</th>
                 <th>Actions</th>
@@ -40,38 +48,42 @@
                 <td th:text="${user.firstName}">First Name</td>
                 <td th:text="${user.lastName}">Last Name</td>
                 <td th:text="${user.roles}">Roles</td>
-                <td sec:authorize="hasAuthority('Admin')"><a th:href="@{'/users/edit/' + ${user.id}}">Edit</a></td>
+                <td sec:authorize="hasAuthority('Admin')"><a class="btn btn-warning btn-sm" th:href="@{'/users/edit/' + ${user.id}}">Edit</a></td>
             </tr>
         </tbody>
     </table>
 
-<ul>
-    <li>
-        <a th:if="${currentPage > 1}" th:href="@{'/users/page/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
-        <span th:unless="${currentPage > 1}">First</span>
-    </li>
-    <li>
-        <a th:if="${currentPage > 1}" th:href="@{'/users/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
-        <span th:unless="${currentPage > 1}">Previous</span>
-    </li>
-    <li>
-        <span th:each="i : ${#numbers.sequence(1, totalPages)}">
-            <a th:if="${currentPage != i}" th:href="@{'/users/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-            <span th:unless="${currentPage != i}">[[${i}]]</span>
-            &nbsp; &nbsp;
-        </span>
-    </li>
-    <li>
-        <a th:if="${currentPage < totalPages}" th:href="@{'/users/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
-        <span th:unless="${currentPage < totalPages}">Next</span>
-    </li>
-    <li>
-        <a th:if="${currentPage < totalPages}" th:href="@{'/users/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
-        <span th:unless="${currentPage < totalPages}">Last</span>
-    </li>
-</ul>
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a class="page-link" th:if="${currentPage > 1}"
+                th:href="@{'/users/page/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+            <span class="page-link" th:unless="${currentPage > 1}">First</span>
+        </li>
+        <li class="page-item">
+            <a class="page-link" th:if="${currentPage > 1}"
+                th:href="@{'/users/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+            <span class="page-link" th:unless="${currentPage > 1}">Previous</span>
+        </li>
+        <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}">
+            <a class="page-link" th:if="${currentPage != i}"
+                th:href="@{'/users/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+            <span class="page-link" th:unless="${currentPage != i}">[[${i}]]</span>
+        </li>
+        <li class="page-item">
+            <a class="page-link" th:if="${currentPage < totalPages}"
+                th:href="@{'/users/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+            <span class="page-link" th:unless="${currentPage < totalPages}">Next</span>
+        </li>
+        <li class="page-item">
+            <a class="page-link" th:if="${currentPage < totalPages}"
+                th:href="@{'/users/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+            <span class="page-link" th:unless="${currentPage < totalPages}">Last</span>
+        </li>
+    </ul>
 
     <footer th:replace="fragments :: footer"></footer>
+
+    <div th:replace="fragments :: scripts"></div>
 </body>
 
 </html>

@@ -1,20 +1,65 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Blindness App</title>
+
+<head th:replace="fragments :: head (pageTitle='Time Vision: Home')">
 </head>
+
 <body class="d-flex flex-column min-vh-100">
-    <header th:replace="fragments :: header"></header>
 
-    <p th:if="${param.loginsuccess}">Logged In Successfully</p>
-    <p th:if="${param.logoutsuccess}">Logged Out Successfully</p>
-    <p th:if="${param.registrationsuccess}">Registration Successful</p>
-    <p th:if="${param.accessdenied}">You are not authorized to view that page.</p>
+    <div class="index-wrap">
+        <div class="index-content">
+            <header th:replace="fragments :: header"></header>
 
-    <footer th:replace="fragments :: footer"></footer>
+            <div class="alert-container">
+                <div th:if="${param.loginsuccess}" class="alert alert-success alert-dismissible fade show">
+                    Logged In Successfully
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${param.logoutsuccess}" class="alert alert-success alert-dismissible fade show">
+                    Logged Out Successfully
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${param.registrationsuccess}" class="alert alert-success alert-dismissible fade show">
+                    Registration Successful - <a class="alert-link" th:href="@{/login}">Click here</a> to log in
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${param.accessdenied}" class="alert alert-warning alert-dismissible fade show">
+                    You are not authorized to view that page.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <main>
+                <h1>What is Time Blindness?</h1>
+                <div class="about">
+                    <p>Time blindness, or time agnosia, is the impaired ability to perceive the passage of time.</p>
+
+                    <p>This is a common experience for ADHD, autistic, and other neurodivergent individuals. In fact,
+                        that
+                        applies to both of this app's developers! Other leading causes of time agnosia include strokes
+                        and
+                        head injuries.</p>
+
+                    <p>Time can seem to stretch on for ages or pass in the blink of an eye, regardless of the actual
+                        duration. This can cause difficulties with planning, being on time, maintaining a routine, and
+                        more.
+                    </p>
+
+                    <p>This app aims to help! By collecting data on how long it takes to perform common tasks, users can
+                        improve their scheduling and time management skills. With practice, users may even improve their
+                        ability to estimate how much time new tasks will take.</p>
+
+                    <p>We have many more features in mind for future versions, and would love to get feedback and
+                        suggestions from the community.</p>
+                </div>
+            </main>
+
+            <footer th:replace="fragments :: footer"></footer>
+            <div th:replace="fragments :: scripts"></div>
+
+        </div>
+    </div>
+
 </body>
+
 </html>

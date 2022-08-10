@@ -86,7 +86,7 @@ public class AppController {
     @PostMapping("/users/save")
     public String saveUser(User user) {
         userService.save(user);
-        return "redirect:/users";
+        return "redirect:/users?editsuccess";
     }
 
     @GetMapping("/tasks")

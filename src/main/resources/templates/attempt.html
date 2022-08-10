@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
-<head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Blindness App</title>
+<head th:replace="fragments :: head (pageTitle='Time Vision: Attempt')">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -16,24 +11,30 @@
         <div th:object="${attempt}">
             <h1>New Attempt For: <a th:href="@{'/tasks/' + ${task.id}}" th:text="${task.name}">Task Name</a></h1>
 
-            <p th:text="${task.description}">Task Description</p>
+            <p class="center" th:text="${task.description}">Task Description</p>
 
-            <form th:action="@{'/tasks/' + ${task.id} + '/attempt/' + ${attempt.id}}" method="post">
-                <button type="submit" name="action" th:value="start" th:text="Start"></button>
-                <p>Start Time:</p>
-                <p th:text="${attempt.startTimeString()}">00:00:00</p>
+            <div class="card mx-auto center">
+                <form class="card-body d-flex flex-column" th:action="@{'/tasks/' + ${task.id} + '/attempt/' + ${attempt.id}}"
+                    method="post">
+                    <button class="btn btn-success btn-lg" type="submit" name="action" th:value="start"
+                        th:text="Start"></button>
+                    <p>Start Time: <span th:text="${attempt.startTimeString()}">00:00:00</span></p>
 
-                <button type="submit" name="action" th:value="stop" th:text="Stop"></button>
-                <p>Stop Time:</p>
-                <p th:text="${attempt.stopTimeString()}">00:00:00</p>
+                    <button class="btn btn-danger btn-lg" type="submit" name="action" th:value="stop"
+                        th:text="Stop"></button>
+                    <p>Stop Time: <span th:text="${attempt.stopTimeString()}">00:00:00</span></p>
 
-                <button type="submit" name="action" th:value="save" th:text="Save"></button>
-            </form>
+                    <button class="btn btn-info btn-lg" type="submit" name="action" th:value="save"
+                        th:text="Save"></button>
+                </form>
+            </div>
 
         </div>
     </main>
 
     <footer th:replace="fragments :: footer"></footer>
+
+    <div th:replace="fragments :: scripts"></div>
 </body>
 
 </html>
